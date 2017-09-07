@@ -1,6 +1,12 @@
 <template>
   <v-app toolbar>
-    <v-navigation-drawer absolute persistent light :mini-variant.sync="mini" v-if="drawer" overflow>
+    <v-navigation-drawer
+      temporary
+      v-model="drawer"
+      light
+      overflow
+      absolute
+    >
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
@@ -64,7 +70,6 @@
           { title: 'Home', icon: 'dashboard', url: '/' },
           { title: 'About', icon: 'question_answer', url: '/about' }
         ],
-        mini: false,
         right: null
       }
     }
