@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <v-container>
     <v-flex xs12 sm6 offset-sm3>
@@ -26,7 +27,7 @@
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-btn>Login</v-btn>
+          <v-btn @click="login">Login</v-btn>
         </v-flex>
       </v-layout>
     </v-flex>
@@ -41,6 +42,21 @@
         username: '',
         e1: true,
         password: ''
+      }
+    },
+    methods: {
+      login() {
+        var data = {
+          client_id: 2,
+          client_secret: '2drpVGs9JUvmIAR2JatnwkgJGQS4yXo3glbifrQz',
+          grant_type: 'password',
+          username: this.username,
+          password: this.password
+        }
+        this.$http.post('http://api.shopping.app/oauth/token', data)
+          .then(response => {
+            this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
+          })
       }
     }
   }
