@@ -1,6 +1,6 @@
 <template>
   <v-app toolbar>
-    <v-navigation-drawer absolute persistent light :mini-variant.sync="mini" v-model="drawer" overflow>
+    <v-navigation-drawer absolute persistent light :mini-variant.sync="mini" v-if="drawer" overflow>
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
@@ -20,7 +20,7 @@
       </v-toolbar>
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
-        <v-list-tile v-for="item in items" :key="item.title" @click="">
+        <v-list-tile v-for="item in items" :key="item.title" :to="item.url">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -33,10 +33,22 @@
     <v-toolbar fixed class="indigo darken-4" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat v-for="item in items" :key="item.title" :to="item.url">
+          <v-icon left>{{ item.icon }}</v-icon>
+          {{ item.title }}
+        </v-btn>
+      </v-toolbar-items>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat to="/login">Login</v-btn>
+        <v-btn flat to="/register">Register</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     <main>
       <v-container fluid>
-        <app-login></app-login>
+        <router-view></router-view>
       </v-container>
     </main>
   </v-app>
@@ -45,15 +57,12 @@
 <script>
   import Login from './components/authentication/Login.vue'
   export default {
-    components: {
-      'app-login': Login
-    },
     data () {
       return {
         drawer: false,
         items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' }
+          { title: 'Home', icon: 'dashboard', url: '/' },
+          { title: 'About', icon: 'question_answer', url: '/about' }
         ],
         mini: false,
         right: null

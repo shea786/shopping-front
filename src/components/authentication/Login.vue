@@ -24,6 +24,11 @@
           ></v-text-field>
         </v-flex>
       </v-layout>
+      <v-layout row>
+        <v-flex>
+          <v-btn>Login</v-btn>
+        </v-flex>
+      </v-layout>
     </v-flex>
   </v-container>
 </template>
