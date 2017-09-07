@@ -36,15 +36,18 @@
     </v-toolbar>
     <main>
       <v-container fluid>
-        <div class="title">Click on sidebar to re-open.</div>
-        <!--v-router-->
+        <app-login></app-login>
       </v-container>
     </main>
   </v-app>
 </template>
 
 <script>
+  import Login from './components/authentication/Login.vue'
   export default {
+    components: {
+      'app-login': Login
+    },
     data () {
       return {
         drawer: false,
