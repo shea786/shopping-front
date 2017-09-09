@@ -4,7 +4,7 @@
       <form>
         <v-layout row>
           <v-flex>
-            <h3>Create new product</h3>
+            <h3>Edit Product</h3>
           </v-flex>
         </v-layout>
         <v-layout row>
@@ -13,9 +13,8 @@
               name="name"
               label="Product Name"
               id="name"
+              required
               v-model="product.name"
-              :error-messages="errors.collect('name')"
-              v-validate="'required'"
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -25,9 +24,9 @@
               name="price"
               label="Product Price (£)"
               id="price"
+              required
+              number
               v-model="product.price"
-              :error-messages="errors.collect('price')"
-              v-validate="'required|min_value:1'"
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -40,14 +39,15 @@
               multi-line
               required
               v-model="product.description"
-              :error-messages="errors.collect('description')"
-              v-validate="'required'"
             ></v-text-field>
           </v-flex>
         </v-layout>
         <v-layout row>
           <v-flex>
-            <v-btn @click="create">Create Product</v-btn>
+            <v-btn
+              @click="updateProduct"
+              v-show="product.name && product.price && product.description"
+            >Update Product</v-btn>
           </v-flex>
         </v-layout>
       </form>
@@ -56,25 +56,28 @@
 </template>
 
 <script>
+  import swal from 'sweetalert'
   export default {
-    $validates: true,
+    created () {
+      this.getProduct()
+    },
     data () {
       return {
-        product: {
-          name: '',
-          price: 0,
-          description: ''
-        }
+        product: {}
       }
     },
     methods: {
-      create () {
-        this.$validator.validateAll()
+      getProduct () {
+        this.$http.get('api/products/' + this.$route.params.product)
           .then(response => {
-            this.$http.post('api/products', this.product)
-              .then(response => {
-                this.$router.push('/feed')
-              })
+            this.product = response.body
+          })
+      },
+      updateProduct () {
+        this.$http.put('api/products/' + this.$route.params.product, this.product)
+          .then(response => {
+            swal('Updated', 'Your product has been updated', 'success')
+            this.$router.push('/feed')
           })
       }
     }

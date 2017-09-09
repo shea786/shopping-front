@@ -5,7 +5,11 @@
         <v-container fluid>
           <v-layout row wrap>
             <v-flex xs12 sm4 v-for="product in products" :key="product.id" style="padding-right:5px;">
-              <my-product :product="product"></my-product>
+              <my-product
+                :product="product"
+                :authenticatedUser="authenticatedUser"
+                @delete-product="deleteProduct(product)"
+              ></my-product>
             </v-flex>
           </v-layout>
         </v-container>
@@ -16,10 +20,17 @@
 
 <script>
   import Product from './Product.vue'
+  import swal from 'sweetalert'
+
   export default {
     data () {
       return {
         products: []
+      }
+    },
+    computed: {
+      authenticatedUser() {
+        return this.$auth.getAuthenticatedUser()
       }
     },
     components: {
@@ -30,6 +41,31 @@
         .then(response => {
           this.products = response.body
         })
+    },
+    methods: {
+      deleteProduct(product) {
+        swal({
+          title: "Are you sure?",
+          text: "Once deleted, you will not be able to recover this product",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+          .then((willDelete) => {
+            if (willDelete) {
+              this.$http.delete('api/products/' + product.id)
+                .then(response => {
+                  let index = this.products.indexOf(product)
+                  this.products.splice(index, 1)
+                  swal("Poof! Your product has been deleted!", {
+                    icon: "success",
+                  });
+                })
+            } else {
+
+            }
+          });
+      }
     }
   }
 </script>

@@ -12,14 +12,32 @@
       <v-btn flat class="orange--text">Add To Wishlist</v-btn>
       <v-btn flat class="green--text">Buy</v-btn>
     </v-card-actions>
+    <v-card-actions v-if="product.user_id == this.authenticatedUser.id">
+      <v-btn
+        flat
+        class="blue--text"
+        :to="editURL">Edit0</v-btn>
+      <v-btn
+        flat
+        class="red--text"
+        @click="$emit('delete-product')">
+        Delete
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script>
   export default {
     props: [
-      'product'
-    ]
+      'product',
+      'authenticatedUser'
+    ],
+    data() {
+      return {
+        editURL: '/products/' + this.product.id + '/edit'
+      }
+    }
   }
 </script>
 

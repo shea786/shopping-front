@@ -32,6 +32,13 @@ const router = new VueRouter({
       meta: {
         forAuth: true
       }
+    },
+    {
+      path: '/products/:product/edit',
+      component: require('./components/products/Edit.vue'),
+      meta: {
+        forAuth: true
+      }
     }
   ],
   mode: 'history'
