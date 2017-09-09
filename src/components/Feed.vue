@@ -8,9 +8,7 @@
       </v-layout>
       <v-layout row>
         <v-flex>
-          <ui>
-            <li v-for="product in products">{{ product.name }}</li>
-          </ui>
+          <my-products></my-products>
         </v-flex>
       </v-layout>
     </v-flex>
@@ -18,17 +16,11 @@
 </template>
 
 <script>
+  import Products from './products/Products.vue'
+
   export default {
-    data () {
-      return {
-        products: []
-      }
-    },
-    created () {
-      this.$http.get('api/products')
-        .then(response => {
-          this.products = response.body
-      })
+    components: {
+      'my-products': Products
     }
   }
 </script>

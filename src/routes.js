@@ -30,7 +30,8 @@ const router = new VueRouter({
         forAuth: true
       }
     }
-  ]
+  ],
+  mode: 'history'
 })
 
 export default router
