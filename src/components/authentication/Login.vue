@@ -56,6 +56,8 @@
         this.$http.post('http://api.shopping.app/oauth/token', data)
           .then(response => {
             this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
+
+            this.$router.push('/feed')
           })
       }
     }
