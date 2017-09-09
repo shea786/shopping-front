@@ -52,6 +52,7 @@
         <v-btn flat to="/register">Register</v-btn>
       </v-toolbar-items>
       <v-toolbar-items v-else>
+        <v-btn flat to="/feed">Feed</v-btn>
         <v-btn flat @click="this.$auth.destroyToken">Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
